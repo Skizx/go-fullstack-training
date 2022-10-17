@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 
 // ------------- MIDDLEWARES ------------------------
-app.use((req, res, next) => {
+/*app.use((req, res, next) => {
     console.log('requête reçue !');
     // J'appel next pour renvoyer la réponse au prochaine middleware
     next();
@@ -26,6 +26,38 @@ app.use((req, res, next) => {
 app.use((req , res) => {
     console.log('Réponse envoyé avec succés !');
 });
+*/
 
+app.use((req, res, next) => {
+    // On dit que l'origine pouvant acceder à l'API sera "*" Tout le monde 
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    // On donne l'autorisation d'utiliser certain en-tête
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    // Ainsi que sur certaine méthode "Verbe de requête"
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    next();
+})
+
+app.use('/api/stuff', (req, res, next) => {
+    const stuff = [
+        {
+            _id : 'oeihfzer',
+            title : 'Mon premier objet',
+            description : 'Les informations de mon premier objet',
+            imageUrl : 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
+            price : 4900,
+            userId : 'qsomihvquois'
+        },
+        {
+            _id : 'oeihzerdeu',
+            title : 'Mon deuxieme objet',
+            description : 'Les informations de mon deuxieme objet',
+            imageUrl : 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
+            price : 2900,
+            userId : 'qsomihvquoisdeu'
+        },
+    ];
+    res.status(200).json(stuff);
+});
 // J'exporte cette application pour y accèder depuis les autres fichiers du projet (server node)
 module.exports = app;
