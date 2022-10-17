@@ -28,6 +28,9 @@ app.use((req , res) => {
 });
 */
 
+// Intercèpte toute les requêtes qui contienne du json et nous mettent a disposition ce contenu sur l'objet requête dans req.body
+app.use(express.json());
+
 app.use((req, res, next) => {
     // On dit que l'origine pouvant acceder à l'API sera "*" Tout le monde 
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -38,7 +41,16 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/api/stuff', (req, res, next) => {
+//
+app.post('/api/stuff', (req, res, next) => {
+    console.log(req.body);
+    res.status(201).json({
+        message : 'Objet crée !'
+    });
+})
+
+// Intercèpte uniquement les requêtes GET a cette endpoint
+app.get('/api/stuff', (req, res, next) => {
     const stuff = [
         {
             _id : 'oeihfzer',
