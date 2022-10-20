@@ -10,4 +10,4 @@ const thingSchema = mongoose.Schema({
 });
 
 // J'exporte le schéma en tant que modèle mongoose appelé "Thing" le randant disponible pour l'application Express
-module.exports = mongoose.model('Thing', thingSchema);
+module.exports = mongoose.model('Things', thingSchema);
